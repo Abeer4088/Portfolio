@@ -555,6 +555,128 @@
     .dispatch-note { display: none; }
   }
 
+  /* visit tracker */
+  .visit-tracker {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 260px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 16px;
+    z-index: 95;
+    border: 1px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--rust);
+    font-family: 'JetBrains Mono', monospace;
+    animation: trackerEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s both;
+  }
+
+  @keyframes trackerEnter {
+    0% {
+      opacity: 0;
+      transform: translate(-60px, 60px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  .tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(244, 241, 234, 0.25);
+  }
+
+  .tracker-id {
+    color: var(--paper);
+    opacity: 0.6;
+    font-size: 8px;
+  }
+
+  .tracker-status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .tracker-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--rust);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.25);
+    animation: trackerPulse 1.8s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .tracker-dot.complete {
+    background: var(--signal);
+    box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.3);
+    animation: none;
+  }
+
+  @keyframes trackerPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.25); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(194, 65, 12, 0.1); }
+  }
+
+  .tracker-status {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    transition: opacity 0.3s;
+  }
+
+  .tracker-progress {
+    width: 100%;
+    height: 3px;
+    background: rgba(244, 241, 234, 0.15);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .tracker-progress-fill {
+    height: 100%;
+    background: var(--rust);
+    width: 0%;
+    transition: width 0.3s ease, background 0.3s;
+  }
+
+  .tracker-progress-fill.complete {
+    background: var(--signal);
+  }
+
+  .tracker-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.6;
+  }
+
+  .tracker-footer .eta {
+    color: var(--signal);
+    opacity: 1;
+  }
+
+  @media (max-width: 700px) {
+    .visit-tracker { display: none; }
+  }
+
   /* SECTIONS */
   section {
     padding: 120px 60px;
@@ -1515,6 +1637,25 @@
   </div>
 </section>
 
+<!-- visit tracker -->
+<div class="visit-tracker" id="visit-tracker">
+  <div class="tracker-header">
+    <span>// Tracking</span>
+    <span class="tracker-id" id="tracker-id">PKG 0000</span>
+  </div>
+  <div class="tracker-status-row">
+    <div class="tracker-dot" id="tracker-dot"></div>
+    <div class="tracker-status" id="tracker-status">Inbound</div>
+  </div>
+  <div class="tracker-progress">
+    <div class="tracker-progress-fill" id="tracker-progress-fill"></div>
+  </div>
+  <div class="tracker-footer">
+    <span id="tracker-step">Stop 1 of 7</span>
+    <span class="eta" id="tracker-eta">ETA 0%</span>
+  </div>
+</div>
+
 <!-- dispatch note (rotating joke) -->
 <div class="dispatch-note" id="dispatch-note">
   <div class="dispatch-header">
@@ -1795,6 +1936,74 @@
     dispatchNote.classList.add('hidden');
     setTimeout(() => dispatchNote.classList.add('gone'), 350);
   });
+
+  // 7. visit tracker
+  const trackerStops = [
+    { selector: '.hero', status: 'Inbound', step: 'Stop 1 of 7' },
+    { selector: '#about', status: 'Operator Briefed', step: 'Stop 2 of 7' },
+    { selector: '.break-band', status: 'In Transit', step: 'Stop 3 of 7' },
+    { selector: '#projects', status: 'Cargo Inspection', step: 'Stop 4 of 7' },
+    { selector: '#certifications', status: 'Customs Cleared', step: 'Stop 5 of 7' },
+    { selector: '#skills', status: 'Inventory Verified', step: 'Stop 6 of 7' },
+    { selector: '#contact', status: 'Ready for Pickup', step: 'Stop 7 of 7' }
+  ];
+
+  const trackerStatus = document.getElementById('tracker-status');
+  const trackerStep = document.getElementById('tracker-step');
+  const trackerETA = document.getElementById('tracker-eta');
+  const trackerFill = document.getElementById('tracker-progress-fill');
+  const trackerDot = document.getElementById('tracker-dot');
+  const trackerId = document.getElementById('tracker-id');
+
+  // generate a "package number" based on visit timestamp so it feels personal
+  trackerId.textContent = 'PKG ' + String(Date.now()).slice(-4);
+
+  let currentStop = -1;
+
+  function updateTracker() {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(100, Math.max(0, (scrollY / docHeight) * 100));
+
+    // determine which stop the user is at based on element positions
+    let activeIndex = 0;
+    const offset = window.innerHeight * 0.4;
+    trackerStops.forEach((stop, i) => {
+      const el = document.querySelector(stop.selector);
+      if (el && el.getBoundingClientRect().top <= offset) {
+        activeIndex = i;
+      }
+    });
+
+    if (activeIndex !== currentStop) {
+      currentStop = activeIndex;
+      const stop = trackerStops[activeIndex];
+
+      // fade transition for status text
+      trackerStatus.style.opacity = '0';
+      setTimeout(() => {
+        trackerStatus.textContent = stop.status;
+        trackerStatus.style.opacity = '1';
+      }, 180);
+
+      trackerStep.textContent = stop.step;
+
+      // mark complete when reaching contact
+      if (activeIndex === trackerStops.length - 1) {
+        trackerDot.classList.add('complete');
+        trackerFill.classList.add('complete');
+      } else {
+        trackerDot.classList.remove('complete');
+        trackerFill.classList.remove('complete');
+      }
+    }
+
+    trackerFill.style.width = progress + '%';
+    trackerETA.textContent = 'ETA ' + Math.round(progress) + '%';
+  }
+
+  window.addEventListener('scroll', updateTracker, { passive: true });
+  updateTracker();
 </script>
 
 </body>
