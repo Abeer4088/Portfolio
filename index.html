@@ -440,6 +440,116 @@
     font-size: 14px;
   }
 
+  /* dispatch note (joke card) */
+  .dispatch-note {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 280px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 16px 18px 14px;
+    z-index: 95;
+    box-shadow: 5px 5px 0 var(--ink);
+    transform: rotate(-1.5deg);
+    font-family: 'Inter Tight', sans-serif;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+    animation: dispatchEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s both;
+  }
+
+  .dispatch-note:hover {
+    transform: rotate(0deg) translateY(-3px);
+    box-shadow: 7px 7px 0 var(--rust);
+  }
+
+  .dispatch-note.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: rotate(-1.5deg) translateY(20px);
+  }
+
+  @keyframes dispatchEnter {
+    0% {
+      opacity: 0;
+      transform: rotate(-8deg) translate(60px, 60px);
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(-1.5deg);
+    }
+  }
+
+  .dispatch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .dispatch-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dispatch-btn {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .dispatch-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .dispatch-btn.refresh {
+    color: var(--rust);
+  }
+
+  .dispatch-body {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ink);
+    min-height: 50px;
+  }
+
+  .dispatch-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.5;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 700px) {
+    .dispatch-note { display: none; }
+  }
+
   /* SECTIONS */
   section {
     padding: 120px 60px;
@@ -623,6 +733,103 @@
     font-size: 28px;
     transition: transform 0.3s, color 0.3s;
     align-self: flex-end;
+  }
+
+  /* RHYTHM BREAK */
+  .break-band {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 60px;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    border-top: 1px solid var(--rust);
+    border-bottom: 1px solid var(--rust);
+  }
+
+  .break-band::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background-image: linear-gradient(to right, var(--paper) 50%, transparent 50%);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    opacity: 0.2;
+  }
+
+  .break-band::after {
+    content: '';
+    position: absolute;
+    bottom: 14px;
+    left: 60px;
+    right: 60px;
+    height: 1px;
+    background-image: linear-gradient(to right, var(--paper) 50%, transparent 50%);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    opacity: 0.2;
+  }
+
+  .break-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: end;
+  }
+
+  .break-quote {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    max-width: 1100px;
+  }
+
+  .break-quote em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rust);
+  }
+
+  .break-quote .highlight {
+    background: var(--signal);
+    color: var(--ink);
+    padding: 0 8px;
+  }
+
+  .break-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.7;
+    text-align: right;
+    line-height: 1.8;
+    flex-shrink: 0;
+    padding-bottom: 8px;
+  }
+
+  .break-meta .label {
+    color: var(--signal);
+    opacity: 1;
+  }
+
+  .break-meta .signature {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(244, 241, 234, 0.25);
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--rust);
+    opacity: 1;
   }
 
   /* CERTIFICATIONS */
@@ -979,6 +1186,9 @@
     .manifest { max-width: 100%; }
     .footer { flex-direction: column; gap: 12px; }
     .certs-grid { grid-template-columns: 1fr; gap: 20px; }
+    .break-band { padding: 60px 24px; }
+    .break-grid { grid-template-columns: 1fr; gap: 32px; }
+    .break-meta { text-align: left; }
   }
 </style>
 </head>
@@ -1081,6 +1291,22 @@
     </div>
   </div>
 </section>
+
+<!-- rhythm break -->
+<div class="break-band">
+  <div class="break-grid">
+    <div class="break-quote">
+      Every system <em>has a path.</em> Some are <span class="highlight">faster</span>, some are <em>cleaner</em>, some just need someone willing to find them.
+    </div>
+    <div class="break-meta">
+      <div><span class="label">// Memo</span></div>
+      <div>To: Hiring Teams</div>
+      <div>Re: Approach</div>
+      <div>Filed: 2026</div>
+      <div class="signature">A. M. Ahmed</div>
+    </div>
+  </div>
+</div>
 
 <!-- projects -->
 <section id="projects" class="projects-section">
@@ -1284,6 +1510,22 @@
   </div>
 </section>
 
+<!-- dispatch note (rotating joke) -->
+<div class="dispatch-note" id="dispatch-note">
+  <div class="dispatch-header">
+    <span>// Note from Dispatch</span>
+    <div class="dispatch-controls">
+      <button class="dispatch-btn refresh" id="dispatch-refresh" title="New joke" aria-label="New joke">&#8634;</button>
+      <button class="dispatch-btn" id="dispatch-close" title="Dismiss" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+  <div class="dispatch-body" id="dispatch-body">Loading...</div>
+  <div class="dispatch-footer">
+    <span>Filed Today</span>
+    <span id="dispatch-num">No. 001</span>
+  </div>
+</div>
+
 <!-- lightbox -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
@@ -1458,6 +1700,94 @@
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+  });
+
+  // 6. dispatch note rotating jokes
+  const jokes = [
+    "Why did the warehouse worker get promoted? They knew how to think outside the box.",
+    "I told my supplier a joke about lead time. They didn't laugh until next quarter.",
+    "My demand forecast said sunny. Reality shipped a hurricane.",
+    "Bullwhip effect: when one customer sneezes and the factory builds a hospital.",
+    "Why did the inventory manager break up with the warehouse? Too much excess baggage.",
+    "Just-in-time procurement is great until the time isn't.",
+    "Procurement asked for the cheapest option. We've been paying for it ever since.",
+    "FIFO is a strategy. LIFO is a confession.",
+    "Why did the SKU get a therapist? It had identity issues.",
+    "EOQ said order 247 units. Common sense said order a case of 250.",
+    "I love supply chain because nothing ever goes wrong. (Source: needed)",
+    "Why don't supply chain professionals trust horoscopes? They prefer regression analysis.",
+    "Lean Six Sigma walks into a bar. Removes 7 forms of waste. Bar is now empty.",
+    "My ERP system and I have a complicated relationship. It says no, I cry, repeat.",
+    "Procurement: where 'we'll get back to you' means 'see you next fiscal year.'",
+    "What do you call a confident inventory manager? A unicorn.",
+    "Why did the truck driver bring a book? Long lead time.",
+    "S&OP meetings: where everyone agrees on everything until the next one.",
+    "The container ship called. It's still stuck.",
+    "Why did the data analyst quit logistics? Too many outliers in the breakroom.",
+    "If you can't measure it, you can't manage it. If you can measure it, the system is down.",
+    "Demand planning is just astrology with Excel.",
+    "Why was the warehouse cold? Someone left a door open in the supply chain.",
+    "MOQ: when the supplier says 10,000 and you needed 12.",
+    "The only thing more expensive than holding inventory is not holding inventory.",
+    "Why did the freight forwarder break up with the customs agent? Too many delays.",
+    "Lean is a mindset. Six Sigma is a sport. Together they are a personality disorder.",
+    "Forecast accuracy: a lagging indicator of your career.",
+    "Why did the pallet go to therapy? It felt stacked against.",
+    "My favorite KPI is the one that makes the chart go up.",
+    "Three-way match: invoice, PO, and the one finance keeps losing.",
+    "Why did the cargo ship apply for a passport? It wanted to stop being detained.",
+    "Vendor said 'roughly 6 weeks.' That was 11 weeks ago.",
+    "Reorder point: the moment you realize you should have reordered yesterday.",
+    "Why did the forklift driver get a raise? They lifted the team's spirit.",
+    "Kanban cards are like sticky notes that filed for tenure.",
+    "The supply chain has more knots than my last family group chat.",
+    "Why was the ERP rollout late? Same reason as every ERP rollout.",
+    "Negotiation 101: he who says the first number loses. He who says nothing waits longer.",
+    "Pareto called. He says 80% of you are still ignoring him.",
+    "Why is supply chain like a band? Everyone wants the lead, nobody plans the encore.",
+    "Risk management is just pessimism with a budget.",
+    "Why did the dock worker bring coffee? The shipment was running on caffeine and prayers.",
+    "Backorder: where 'in stock soon' means 'we'll see.'",
+    "Logistics is the art of explaining why the truck is in Cleveland when it should be in Phoenix."
+  ];
+
+  const jokeBody = document.getElementById('dispatch-body');
+  const jokeNum = document.getElementById('dispatch-num');
+  const jokeRefresh = document.getElementById('dispatch-refresh');
+  const jokeClose = document.getElementById('dispatch-close');
+  const dispatchNote = document.getElementById('dispatch-note');
+
+  let lastJokeIndex = -1;
+
+  function pickJoke() {
+    if (jokes.length <= 1) return 0;
+    let i;
+    do { i = Math.floor(Math.random() * jokes.length); } while (i === lastJokeIndex);
+    lastJokeIndex = i;
+    return i;
+  }
+
+  function showJoke() {
+    const i = pickJoke();
+    jokeBody.style.opacity = '0';
+    setTimeout(() => {
+      jokeBody.textContent = jokes[i];
+      jokeNum.textContent = 'No. ' + String(i + 1).padStart(3, '0');
+      jokeBody.style.opacity = '1';
+    }, 180);
+  }
+
+  jokeBody.style.transition = 'opacity 0.2s ease';
+  showJoke();
+
+  jokeRefresh.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showJoke();
+  });
+
+  jokeClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dispatchNote.classList.add('hidden');
   });
 </script>
 
