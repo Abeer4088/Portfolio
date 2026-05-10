@@ -463,9 +463,14 @@
   }
 
   .dispatch-note.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: rotate(-1.5deg) translateY(20px);
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: rotate(-1.5deg) translateY(20px) !important;
+    animation: none !important;
+  }
+
+  .dispatch-note.gone {
+    display: none !important;
   }
 
   @keyframes dispatchEnter {
@@ -1788,6 +1793,7 @@
   jokeClose.addEventListener('click', (e) => {
     e.stopPropagation();
     dispatchNote.classList.add('hidden');
+    setTimeout(() => dispatchNote.classList.add('gone'), 350);
   });
 </script>
 
