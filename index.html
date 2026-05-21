@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abeer Muntaseem Ahmed. Supply Chain.</title>
 
+<!-- SEO -->
+<meta name="description" content="Abeer Muntaseem Ahmed is a Supply Chain Management graduate student at UT Dallas focused on operations, logistics, and analytics. View projects, certifications, and skills.">
+<meta name="author" content="Abeer Muntaseem Ahmed">
+<meta name="keywords" content="Abeer Muntaseem Ahmed, supply chain, logistics, operations, analytics, UT Dallas, supply chain management">
+
+<!-- Open Graph (LinkedIn, Facebook, messaging apps) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Abeer Muntaseem Ahmed. Supply Chain.">
+<meta property="og:description" content="Supply Chain Management graduate student at UT Dallas. Operations, logistics, and analytics portfolio.">
+<meta property="og:url" content="https://abeer4088.github.io/portfolio/">
+<meta property="og:image" content="https://abeer4088.github.io/portfolio/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Abeer Muntaseem Ahmed. Supply Chain.">
+<meta name="twitter:description" content="Supply Chain Management graduate student at UT Dallas. Operations, logistics, and analytics portfolio.">
+<meta name="twitter:image" content="https://abeer4088.github.io/portfolio/og-preview.png">
+
+<!-- favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RHCSPKQTGC"></script>
 <script>
@@ -24,7 +49,6 @@
     --paper-2: #ebe6db;
     --rust: #c2410c;
     --rust-deep: #7c2d12;
-    --steel: #1f2937;
     --signal: #fde047;
     --line: rgba(10, 10, 10, 0.18);
   }
@@ -320,22 +344,16 @@
     }
   }
 
-  /* project slide-in (overrides existing fade) */
-  .project.slide-from-left {
-    transform: translateX(-60px) !important;
-    opacity: 0 !important;
-    transition: opacity 0.7s ease, transform 0.7s ease !important;
+  /* project card reveal */
+  .project.pre-reveal {
+    opacity: 0;
+    transform: translateY(28px);
   }
 
-  .project.slide-from-right {
-    transform: translateX(60px) !important;
-    opacity: 0 !important;
-    transition: opacity 0.7s ease, transform 0.7s ease !important;
-  }
-
-  .project.slide-in {
-    transform: translateX(0) !important;
-    opacity: 1 !important;
+  .project.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   /* skill cell typewriter effect */
@@ -445,12 +463,12 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 280px;
+    width: 250px;
     background: var(--paper);
     border: 1px solid var(--ink);
-    padding: 16px 18px 14px;
+    padding: 14px 16px 12px;
     z-index: 95;
-    box-shadow: 5px 5px 0 var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
     transform: rotate(-1.5deg);
     font-family: 'Inter Tight', sans-serif;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
@@ -679,7 +697,7 @@
 
   /* SECTIONS */
   section {
-    padding: 120px 60px;
+    padding: 90px 60px;
     position: relative;
     z-index: 3;
   }
@@ -706,10 +724,10 @@
   h2 {
     font-family: 'Fraunces', serif;
     font-weight: 900;
-    font-size: clamp(48px, 8vw, 120px);
-    line-height: 0.9;
+    font-size: clamp(38px, 5.8vw, 84px);
+    line-height: 0.92;
     letter-spacing: -0.03em;
-    margin-bottom: 60px;
+    margin-bottom: 44px;
   }
 
   h2 em {
@@ -786,80 +804,113 @@
   /* PROJECTS */
   .projects-section { background: var(--paper-2); }
 
-  .project {
-    border-top: 1px solid var(--ink);
-    padding: 40px 0;
+  .projects-grid {
     display: grid;
-    grid-template-columns: 80px 1fr 2fr 200px;
-    gap: 40px;
-    align-items: center;
-    transition: padding 0.3s, background 0.3s;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .project {
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 32px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
     cursor: pointer;
     text-decoration: none;
     color: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 64px;
+    height: 64px;
+    background: var(--rust);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+    opacity: 0.1;
+    transition: opacity 0.3s;
   }
 
   .project:hover {
     background: var(--ink);
     color: var(--paper);
-    padding: 44px 24px;
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--rust);
   }
 
+  .project:hover::before { opacity: 0.35; }
   .project:hover .project-num { color: var(--signal); }
   .project:hover .project-tag { border-color: var(--paper); color: var(--paper); }
-  .project:hover .project-arrow { transform: translateX(12px); color: var(--rust); }
+  .project:hover .project-arrow { transform: translateX(8px); color: var(--rust); }
+  .project:hover .project-title em { color: var(--signal); }
 
-  .project:last-child { border-bottom: 1px solid var(--ink); }
+  .project-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed currentColor;
+    padding-bottom: 12px;
+  }
 
   .project-num {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
     color: var(--rust);
     transition: color 0.3s;
   }
 
+  .project-arrow {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 1;
+    transition: transform 0.3s, color 0.3s;
+  }
+
   .project-title {
     font-family: 'Fraunces', serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.02;
     letter-spacing: -0.02em;
   }
 
   .project-title em {
     font-style: italic;
     font-weight: 400;
+    color: var(--rust);
+    transition: color 0.3s;
   }
 
   .project-desc {
     font-family: 'Inter Tight', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.5;
     opacity: 0.85;
+    flex-grow: 1;
   }
 
   .project-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
+    margin-top: auto;
   }
 
   .project-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 9px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    border: 1px solid var(--ink);
+    border: 1px solid currentColor;
     padding: 4px 10px;
     transition: all 0.3s;
-  }
-
-  .project-arrow {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    transition: transform 0.3s, color 0.3s;
-    align-self: flex-end;
+    display: inline-block;
   }
 
   /* RHYTHM BREAK */
@@ -960,7 +1011,15 @@
   }
 
   /* CERTIFICATIONS */
-  .certs-section { background: var(--paper); }
+  .certs-section {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .certs-section h2 { color: var(--paper); }
+  .certs-section h2 em { color: var(--rust); }
+  .certs-section .section-label { color: var(--signal); }
+  .certs-section .section-label::before { background: var(--signal); }
 
   .certs-grid {
     display: grid;
@@ -970,8 +1029,9 @@
   }
 
   .cert-card {
-    background: var(--paper-2);
-    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--paper);
     padding: 36px 32px;
     position: relative;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -983,7 +1043,7 @@
 
   .cert-card:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 6px 6px 0 var(--rust);
+    box-shadow: 6px 6px 0 var(--signal);
   }
 
   .cert-card::before {
@@ -1283,32 +1343,15 @@
     opacity: 0.6;
   }
 
-  /* ASCII compass decoration */
-  .compass {
-    position: absolute;
-    top: 60px;
-    right: 60px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    line-height: 1.3;
-    color: var(--rust);
-    opacity: 0.5;
-    white-space: pre;
-    transform: rotate(8deg);
-  }
-
   /* responsive */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; padding: 100px 24px 40px; }
-    section { padding: 80px 24px; }
+    section { padding: 70px 24px; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .skills-grid { grid-template-columns: 1fr; }
-    .project { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
-    .project:hover { padding: 32px 12px; }
-    .project-meta { align-items: flex-start; }
+    .projects-grid { grid-template-columns: 1fr; gap: 16px; }
     .contact-grid { grid-template-columns: 1fr; }
     nav { right: 20px; top: 32px; padding: 10px 14px; gap: 12px; font-size: 9px; }
-    .compass { display: none; }
     .photo-card { margin-left: 0; margin-bottom: 0; }
     .manifest { max-width: 100%; }
     .footer { flex-direction: column; gap: 12px; }
@@ -1438,93 +1481,111 @@
 <!-- projects -->
 <section id="projects" class="projects-section">
   <div class="section-label">02 // Cargo Manifest</div>
-  <h2>Projects <em>in</em><br>motion.</h2>
+  <h2>Projects in <em>motion.</em></h2>
 
- <a class="project" href="https://github.com/Abeer4088/Building-a-Demand-Forecasting-Model" target="_blank" rel="noopener">
-    <div class="project-num">/01</div>
-    <div class="project-title">Demand<br><em>Forecasting Model</em></div>
-    <div class="project-desc">Predicting e-commerce product demand using PySpark to answer business questions regarding supply chain efficiency.</div>
-    <div class="project-meta">
-      <span class="project-tag">Forecasting / PySpark / Machine Learning</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
-  
-  <a class="project" href="https://github.com/Abeer4088/Time-Series-Analysis-for-Transportation" target="_blank" rel="noopener">
-    <div class="project-num">/02</div>
-    <div class="project-title">Time Series<br><em>Transportation</em></div>
-    <div class="project-desc">Forecasting transportation demand patterns using time series analysis. Identifies seasonality, trend, and signals that matter for capacity planning and route allocation.</div>
-    <div class="project-meta">
-      <span class="project-tag">Forecasting / Python</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+  <div class="projects-grid">
+    <a class="project" href="https://github.com/Abeer4088/Building-a-Demand-Forecasting-Model" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/01</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Demand <em>Forecasting Model</em></div>
+      <div class="project-desc">Predicting e-commerce product demand using PySpark to answer business questions regarding supply chain efficiency.</div>
+      <div class="project-meta">
+        <span class="project-tag">Forecasting / PySpark / ML</span>
+      </div>
+    </a>
 
-  <a class="project" href="https://github.com/Abeer4088/Taxi-Route-Optimization-with-Reinforcement-Learning" target="_blank" rel="noopener">
-    <div class="project-num">/03</div>
-    <div class="project-title">Route <em>Optimization</em><br>via RL</div>
-    <div class="project-desc">Reinforcement learning applied to taxi routing. The same problem space as last mile delivery and fleet dispatch in logistics.</div>
-    <div class="project-meta">
-      <span class="project-tag">Optimization / Python / Simulation</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+    <a class="project" href="https://github.com/Abeer4088/Time-Series-Analysis-for-Transportation" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/02</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Time Series <em>Transportation</em></div>
+      <div class="project-desc">Forecasting transportation demand patterns using time series analysis. Identifies seasonality, trend, and signals that matter for capacity planning and route allocation.</div>
+      <div class="project-meta">
+        <span class="project-tag">Forecasting / Python</span>
+      </div>
+    </a>
 
-  <a class="project" href="https://github.com/Abeer4088/Food-Price-Forecasting-with-Functions" target="_blank" rel="noopener">
-    <div class="project-num">/04</div>
-    <div class="project-title">Food Price<br><em>Forecasting</em></div>
-    <div class="project-desc">Forecasting food commodity prices using modular R functions. Directly relevant to procurement, sourcing strategy, and cost planning.</div>
-    <div class="project-meta">
-      <span class="project-tag">Forecasting / R</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+    <a class="project" href="https://github.com/Abeer4088/Taxi-Route-Optimization-with-Reinforcement-Learning" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/03</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Route <em>Optimization</em> via RL</div>
+      <div class="project-desc">Reinforcement learning applied to taxi routing. The same problem space as last mile delivery and fleet dispatch in logistics.</div>
+      <div class="project-meta">
+        <span class="project-tag">Optimization / Python / Simulation</span>
+      </div>
+    </a>
 
-  <a class="project" href="https://github.com/Abeer4088/Exploring-London-s-Travel-Network" target="_blank" rel="noopener">
-    <div class="project-num">/05</div>
-    <div class="project-title">London <em>Travel</em><br>Network</div>
-    <div class="project-desc">Exploratory analysis of London's transportation network. Network thinking, flow analysis, and the kind of pattern recognition that translates to distribution and supply networks.</div>
-    <div class="project-meta">
-      <span class="project-tag">Snowflake / Analytics</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+    <a class="project" href="https://github.com/Abeer4088/Food-Price-Forecasting-with-Functions" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/04</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Food Price <em>Forecasting</em></div>
+      <div class="project-desc">Forecasting food commodity prices using modular R functions. Directly relevant to procurement, sourcing strategy, and cost planning.</div>
+      <div class="project-meta">
+        <span class="project-tag">Forecasting / R</span>
+      </div>
+    </a>
 
-  <a class="project" href="https://github.com/Abeer4088/Analyzing-Electric-Vehicle-Charging-Habits" target="_blank" rel="noopener">
-    <div class="project-num">/06</div>
-    <div class="project-title">EV Charging<br><em>Habits</em></div>
-    <div class="project-desc">Behavioral analysis of electric vehicle charging patterns. Useful framing for fleet electrification, energy demand planning, and infrastructure decisions.</div>
-    <div class="project-meta">
-      <span class="project-tag">Python / Analytics</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+    <a class="project" href="https://github.com/Abeer4088/Exploring-London-s-Travel-Network" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/05</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">London <em>Travel</em> Network</div>
+      <div class="project-desc">Exploratory analysis of London's transportation network. Network thinking, flow analysis, and the kind of pattern recognition that translates to distribution and supply networks.</div>
+      <div class="project-meta">
+        <span class="project-tag">Snowflake / Analytics</span>
+      </div>
+    </a>
+
+    <a class="project" href="https://github.com/Abeer4088/Analyzing-Electric-Vehicle-Charging-Habits" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/06</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">EV Charging <em>Habits</em></div>
+      <div class="project-desc">Behavioral analysis of electric vehicle charging patterns. Useful framing for fleet electrification, energy demand planning, and infrastructure decisions.</div>
+      <div class="project-meta">
+        <span class="project-tag">Python / Analytics</span>
+      </div>
+    </a>
 
     <a class="project" href="https://github.com/Abeer4088/What-s-in-an-Avocado-Toast-A-Supply-Chain-Analysis" target="_blank" rel="noopener">
-    <div class="project-num">/07</div>
-    <div class="project-title">What's in an Avocado Toast?<br><em>A Supply Chain Analysis</em></div>
-    <div class="project-desc"> A supply chain analysis of the ingredients used in an avocado toast, using the data from Open Food Facts. This database contains extensive, openly-sourced information on various foods, including their origins.</div>
-    <div class="project-meta">
-      <span class="project-tag">Python / Analytics</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+      <div class="project-top">
+        <span class="project-num">/07</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Avocado Toast <em>Supply Chain</em></div>
+      <div class="project-desc">A supply chain analysis of the ingredients in an avocado toast, using data from Open Food Facts. The database holds extensive openly sourced information on foods, including their origins.</div>
+      <div class="project-meta">
+        <span class="project-tag">Python / Analytics</span>
+      </div>
+    </a>
 
-   <a class="project" href="https://github.com/Abeer4088/Retail-Inventory-Optimization-Under-the-Newsvendor-Framework" target="_blank" rel="noopener">
-    <div class="project-num">/08</div>
-    <div class="project-title">Retail Inventory Optimization<br><em>Under the Newsvendor Framework</em></div>
-    <div class="project-desc"> Optimization of inventory level for five different stores by using three different models to find the optimal stock level while minimizing cost.</div>
-    <div class="project-meta">
-      <span class="project-tag">Excel / Optimization / Analysis</span>
-      <span class="project-arrow">&rarr;</span>
-    </div>
-  </a>
+    <a class="project" href="https://github.com/Abeer4088/Retail-Inventory-Optimization-Under-the-Newsvendor-Framework" target="_blank" rel="noopener">
+      <div class="project-top">
+        <span class="project-num">/08</span>
+        <span class="project-arrow">&rarr;</span>
+      </div>
+      <div class="project-title">Retail Inventory <em>Optimization</em></div>
+      <div class="project-desc">Optimizing inventory levels for five stores using three models to find the optimal stock level while minimizing cost. Built on the Newsvendor framework.</div>
+      <div class="project-meta">
+        <span class="project-tag">Excel / Optimization / Analysis</span>
+      </div>
+    </a>
+  </div>
 </section>
 
 <!-- certifications -->
 <section id="certifications" class="certs-section">
   <div class="section-label">03 // Stamps of Approval</div>
-  <h2>Credentials <em>on</em><br>file.</h2>
+  <h2>Credentials on <em>file.</em></h2>
 
   <div class="certs-grid">
     <div class="cert-card" data-cert="cert-iscea.jpg" data-caption="ISCEA Post Graduate Diploma in Supply Chain Management">
@@ -1769,16 +1830,25 @@
 
   document.querySelectorAll('.stat-num').forEach((el) => statObserver.observe(el));
 
-  // 3. project slide-in (alternating sides)
+  // 3. project card staggered reveal
   const projects = document.querySelectorAll('.project');
-  projects.forEach((p, i) => {
-    p.classList.add(i % 2 === 0 ? 'slide-from-left' : 'slide-from-right');
-  });
+  projects.forEach((p) => p.classList.add('pre-reveal'));
 
   const projectObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('slide-in');
+      if (entry.isIntersecting && !entry.target.dataset.revealed) {
+        entry.target.dataset.revealed = 'true';
+        const el = entry.target;
+        // small stagger based on column position
+        const delay = (Array.from(projects).indexOf(el) % 2) * 80;
+        setTimeout(() => {
+          el.classList.remove('pre-reveal');
+          el.classList.add('revealed');
+          // release inline transform control after animation so hover works
+          setTimeout(() => {
+            el.classList.remove('revealed');
+          }, 650);
+        }, delay);
       }
     });
   }, { threshold: 0.15 });
